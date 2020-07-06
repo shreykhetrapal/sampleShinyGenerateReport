@@ -1,0 +1,77 @@
+library(shiny)
+library(DT)
+
+ui <- fluidPage(
+  # App title ----
+  titlePanel("Uploading Files"),
+  
+  # Sidebar layout with input and output definitions ----
+  sidebarLayout(
+    
+    # Sidebar panel for inputs ----
+    sidebarPanel(
+      
+      # Input: Select a file ----
+      fileInput("file1", "Choose CSV File",
+                multiple = FALSE,
+                accept = c(".csv")),
+    
+    ),
+    
+    # Main panel for displaying outputs ----
+    mainPanel(
+    
+      actionButton('generate',label = 'Generate Table and Plot'),
+      
+      downloadButton('reportGenerate',label = 'Generate Report'),
+     
+      # Output: Data file ----
+      plotOutput("graph1"),
+      
+      dataTableOutput('table1')
+      
+    )
+    
+  )
+)
+
+# Define server logic to read selected file ----
+server <- function(input, output) {
+  
+  data1 <- eventReactive(input$generate,{
+      
+      if (is.null(input$file1)) {
+        return(NULL)
+      }
+      
+      data <- read.csv(input$file1$datapath)
+      
+    
+  })
+  output$graph1 <- renderPlot({
+    
+    plot(data1()$x,data1()$y,main = input$file1$name,xlab = 'X-AXIS',ylab = 'Y-AXIS')
+    
+  })
+  
+  output$table1 <- renderDataTable({
+    datatable(data1())
+  })
+  
+  output$reportGenerate <- downloadHandler(
+    filename = 'report.docx',
+    content = function(file){
+      tempReport <- file.path(tempdir(),'report.Rmd')
+      file.copy('report.Rmd',tempReport,overwrite = TRUE)
+      params <- list(n=input$file1)
+      rmarkdown::render(tempReport,output_file = file,
+                        params = params,
+                        envir=new.env(parent = globalenv())
+                        )
+    }
+  )
+  
+}
+
+# Create Shiny app ----
+shinyApp(ui, server)

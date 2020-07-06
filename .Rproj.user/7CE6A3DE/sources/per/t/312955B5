@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1593062168983.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2973911658",
+    "id" : "312955B5",
+    "lastKnownWriteTime" : 1593080229,
+    "last_content_update" : 1593080229526,
+    "path" : "~/Desktop/Sirpi/Day4/ShinyApp.R",
+    "project_path" : "ShinyApp.R",
+    "properties" : {
+        "cursorPosition" : "24,6",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

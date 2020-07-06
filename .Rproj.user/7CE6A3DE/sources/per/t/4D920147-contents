@@ -1,0 +1,34 @@
+---
+title: "Dynamic report"
+output:
+  word_document:
+    reference_docx: "template.docx"
+params:
+  n: NA
+---
+
+```{r setup, echo = FALSE}
+library(dplyr)
+library(huxtable)
+data<- read.csv(params$n$datapath)
+name <- params$n$name
+data <- as_hux(data[,c(2,3)])
+```
+
+# A plot of `r params$n$name` random points
+
+```{r echo=FALSE, warning=FALSE}
+plot(data,main=name,xlab='X AXIS',ylab='Y AXIS')
+```
+
+
+```{r echo=FALSE}
+data %>% 
+      set_all_padding(4) %>% 
+      set_outer_padding(0) %>% 
+      set_bold(1, everywhere) %>% 
+      set_bottom_border(1, everywhere) %>% 
+      set_width(0.4) %>% 
+      set_caption("X and Y Values")
+```
+
